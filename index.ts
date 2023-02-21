@@ -8,6 +8,7 @@ import cors from 'cors';
 import { json } from 'body-parser';
 import http from 'http';
 import abuse from './graphql/abuse';
+import auth from './utils/auth.utils'
 
 config();
 
@@ -33,7 +34,7 @@ const registerApolloEndpoint = async (app, httpServer, params, path) => {
     path,
     expressMiddleware(endpoint, {
       context: async ({ req, res }) => ({
-        user: {}, // TODO: implement function to verify bearer token
+        user: await auth(req, res), // function to verify bearer token
         req,
         res,
       }),
