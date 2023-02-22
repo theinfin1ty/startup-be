@@ -7,6 +7,7 @@ import { expressMiddleware } from '@apollo/server/express4';
 import cors from 'cors';
 import { json } from 'body-parser';
 import http from 'http';
+import { connect } from 'mongoose';
 import abuse from './graphql/abuse';
 import auth from './utils/auth.utils'
 
@@ -18,6 +19,14 @@ const httpServer = http.createServer(app);
 
 app.use(cors());
 app.use(json());
+
+connect(`${process.env.MONGODB_URL}`)
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((error) => {
+    console.log(error.message);
+  })
 
 const registerApolloEndpoint = async (app, httpServer, params, path) => {
   const endpoint = new ApolloServer({
