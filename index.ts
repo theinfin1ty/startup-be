@@ -7,48 +7,19 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import cors from 'cors';
 import { json } from 'body-parser';
 import http from 'http';
+import abuse from './garphql/index';
 
 config();
 const app = express();
-
 const httpServer = http.createServer(app);
 app.use(cors());
 app.use(json());
 
-const typeDefs = `#graphql
-
-  type Book {
-    title: String
-    author: String
-  }
-
-  type Query {
-    books: [Book]
-  }
-`;
-
-const books = [
-  {
-    title: 'The Awakening',
-    author: 'Kate Chopin',
-  },
-  {
-    title: 'City of Glass',
-    author: 'Paul Auster',
-  },
-];
-
-const resolvers = {
-  Query: {
-    books: () => books,
-  },
-};
-
 const serverIntialise =async () => {
   try {
     const server = new ApolloServer({
-      typeDefs,
-      resolvers,
+      typeDefs : abuse.typeDefs,
+      resolvers : abuse.resolvers,
       introspection: true,
       plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
     });
@@ -66,8 +37,13 @@ const serverIntialise =async () => {
 
 serverIntialise();
 
-mongoose.connect(process.env.DB_URI as string, () => {
-  console.log("Connected to MongoDB");
+mongoose.connect(process.env.DB_URI as string, (err) => {
+  if (err) {
+    console.log(`Error while connecting with MongoDB:- ${err}`);
+  }
+  else {
+    console.log("Connected to MongoDB");
+  }
 });
 
 app.all('/', (req: Request, res: Response) => {
