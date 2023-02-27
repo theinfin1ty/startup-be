@@ -4,7 +4,18 @@ const slangSchema = new Schema(
   {
     title: String,
     description: String,
-    submittedById: String
+    submittedById: String,
+    likes: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    usage: [String],
+    status: {
+      type: String,
+      default: 'pending',
+      enum: ['pending', 'approved'],
+    },
   },
   {
     timestamps: true,
@@ -18,7 +29,7 @@ slangSchema.virtual('submittedBy', {
   localField: 'submittedById',
   foreignField: 'uid',
   justOne: true,
-})
+});
 
 const Slang = model('Slang', slangSchema);
 

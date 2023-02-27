@@ -1,7 +1,7 @@
 import Slang from './slang.model';
 import User from './user.model';
 
-export default  {
+export default {
   UserModel: User,
   SlangModel: Slang,
-}
+};

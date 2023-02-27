@@ -8,10 +8,12 @@ const userSchema = new Schema(
       unique: true,
     },
     email: String,
-    bookmarks: [{
-      type: String,
-      Ref: 'Slang'
-    }]
+    bookmarks: [
+      {
+        type: String,
+        Ref: 'Slang',
+      },
+    ],
   },
   {
     timestamps: true,
