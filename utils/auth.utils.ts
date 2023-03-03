@@ -26,7 +26,8 @@ const auth = async (req, res) => {
 
     return {
       uid: payload['cognito:username'],
-      role: payload['cognito:groups'].includes('admin') ? 'admin' : 'user'
+      role: payload['cognito:groups'].includes('admin') ? 'admin' : 'user',
+      email: payload.email,
     }
   } catch (e) {
     throw new GraphQLError('Access Denied!');

@@ -6,7 +6,7 @@ export const resolvers = {
     getEverything: async (parent, args, context, info) => {
       try {
         const slangs = await Models.SlangModel.find({
-          status: 'approved',
+          /* status: 'approved',*/
         }).sort({
           title: 1,
         });

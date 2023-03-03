@@ -7,7 +7,11 @@ const userSchema = new Schema(
       required: true,
       unique: true,
     },
-    email: String,
+    email: {
+      type: String,
+      required: true,
+      unique: true
+    },
     bookmarks: [
       {
         type: String,

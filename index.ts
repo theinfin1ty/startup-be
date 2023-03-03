@@ -74,6 +74,17 @@ registerApolloEndpoint(
   true
 );
 
+registerApolloEndpoint(
+  app,
+  httpServer,
+  {
+    typeDefs: protectedRoutes.typeDefs,
+    resolvers: protectedRoutes.resolvers,
+  },
+  '/user',
+  true
+);
+
 app.all('/', (req: Request, res: Response) => {
   res.send('Hello World!');
 });

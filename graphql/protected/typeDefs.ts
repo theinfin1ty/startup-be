@@ -1,29 +1,37 @@
 export const typeDefs = `#graphql
+type Slang {
+  _id: ID
+  title: String
+  description: String
+  submittedById: String
+  likes: Int
+  status: String
+  usage: [String]
+}
 
-  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
+input CreateSlangInput {
+  title: String
+  description: String
+  usage: [String]
+}
 
+input UpdateSlangInput {
+  _id: ID
+  title: String
+  description: String
+  submittedById: String
+  status: String
+  usage: [String]
+}
 
-  # This "Book" type defines the queryable fields for every book in our data source.
+type Mutation {
+  createSlang(data: CreateSlangInput): Slang
+  updateSlang(data: UpdateSlangInput): Slang
+}
 
-  type Book {
-
-    title: String
-
-    author: String
-
-  }
-
-
-  # The "Query" type is special: it lists all of the available queries that
-
-  # clients can execute, along with the return type for each. In this
-
-  # case, the "books" query returns an array of zero or more Books (defined above).
-
-  type Query {
-
-    books: [Book]
-
-  }
+type Query {
+  deleteSlang(id: String): Slang
+  likeSlang(id: String): Slang
+}
 
 `;
