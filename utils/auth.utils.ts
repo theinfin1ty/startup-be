@@ -22,7 +22,7 @@ const auth = async (req, res) => {
       e: key.e,
     };
     const pem = jwkToPem(jwk);
-    const payload = await verify(token, pem);
+    const payload: any = await verify(token, pem);
 
     return {
       uid: payload['cognito:username'],
