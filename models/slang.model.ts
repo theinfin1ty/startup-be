@@ -16,6 +16,7 @@ const slangSchema = new Schema(
       default: 'pending',
       enum: ['pending', 'approved'],
     },
+    additionalInfo: [String],
   },
   {
     timestamps: true,
