@@ -7,6 +7,7 @@ export const typeDefs = `#graphql
     likes: Int
     status: String
     usage: [String]
+    additionalInfo: [String]
   }
 
   type Query {

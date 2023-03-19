@@ -7,6 +7,7 @@ type Slang {
   likes: Int
   status: String
   usage: [String]
+  additionalInfo: [String]
 }
 
 input CreateSlangInput {
