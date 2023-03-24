@@ -2,21 +2,29 @@ import { GraphQLError } from 'graphql';
 import Models from '../../models';
 
 export const resolvers = {
+  Query: {
+    getUser: () => {}
+  },
   Mutation: {
-    createUser: async (parent, args, context, info) => {
+    createUpdateUser: async (parent, args, context, info) => {
       try {
         const { user: payload } = context;
 
         const existingUser = await Models.UserModel.findOne({ uid: payload.uid });
   
         if (existingUser) {
-          throw new GraphQLError ('User Already exits');
+          existingUser.uid = payload.uid;
+          existingUser.email = payload.email;
+          existingUser.role = payload.role;
+
+          await existingUser.save();
+          return existingUser;
         }
 
         const user = await Models.UserModel.create({
             ...payload
         });
-  
+
         return user;
       } catch (error) {
         console.log(error);
