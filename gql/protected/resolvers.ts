@@ -76,6 +76,7 @@ export const resolvers = {
     },
     likeSlang: async (parent, args, context, info) => {
       try {
+        const { user } = context;
         const { id } = args;
 
         const slang = await Models.SlangModel.findOne({ _id: id });
@@ -84,7 +85,15 @@ export const resolvers = {
           throw new GraphQLError('Slang not found');
         }
 
-        slang.likes += 1;
+        if(!slang?.likedByIds?.includes(user?.uid)) {
+          slang.likedByIds = [ ...slang?.likedByIds, user?.uid ];
+        } else {
+          await Models.SlangModel.updateOne({ _id: slang._id }, {
+            $pull: {
+              likedByIds: user.uid,
+            }
+          })
+        }
 
         await slang.save();
 

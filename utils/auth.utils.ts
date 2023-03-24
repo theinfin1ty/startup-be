@@ -3,17 +3,23 @@ import { GraphQLError } from 'graphql';
 import { decode, verify } from 'jsonwebtoken';
 import jwkToPem from 'jwk-to-pem';
 
-const auth = async (req, res) => {
+const auth = async (req, isAuthenticated = true) => {
   try {
     const token = req.header('Authorization').replace('Bearer ', '');
     const jwksUri = `https://cognito-idp.${process.env.AWS_IAM_REGION}.amazonaws.com/${process.env.COGNITO_USER_POOL_ID}/.well-known/jwks.json`;
     const response = await axios.get(jwksUri);
     if (response.status !== 200) {
-      throw new GraphQLError('Access Denied!');
+      if(isAuthenticated) {
+        throw new GraphQLError('Access Denied!');
+      }
+      return null;
     }
     const decodedJwt = await decode(token, { complete: true });
     if (!decodedJwt) {
-      throw new GraphQLError('Access Denied!');
+      if(isAuthenticated) {
+        throw new GraphQLError('Access Denied!');
+      }
+      return null;
     }
     const key = response.data.keys.find((elem) => elem.kid === decodedJwt.header.kid);
     const jwk = {
@@ -30,7 +36,10 @@ const auth = async (req, res) => {
       email: payload.email,
     }
   } catch (e) {
-    throw new GraphQLError('Access Denied!');
+    if(isAuthenticated) {
+      throw new GraphQLError('Access Denied!');
+    }
+    return null;
   }
 };
 

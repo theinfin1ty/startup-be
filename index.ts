@@ -43,7 +43,7 @@ const registerApolloEndpoint = async (app, httpServer, params, path, isAuthentic
     path,
     expressMiddleware(endpoint, {
       context: async ({ req, res }) => ({
-        user: isAuthenticated ? await auth(req, res) : null,
+        user: await auth(req, isAuthenticated),
         req,
         res,
       }),
