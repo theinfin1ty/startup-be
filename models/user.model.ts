@@ -16,12 +16,6 @@ const userSchema = new Schema(
       required: true,
       unique: true
     },
-    bookmarks: [
-      {
-        type: String,
-        Ref: 'Slang',
-      },
-    ],
   },
   {
     timestamps: true,
