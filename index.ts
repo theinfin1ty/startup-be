@@ -8,8 +8,7 @@ import cors from 'cors';
 import { json } from 'body-parser';
 import http from 'http';
 import { connect } from 'mongoose';
-import publicRoutes from './graphql/public';
-import protectedRoutes from './graphql/protected';
+import { publicRoutes, protectedRoutes, userRoutes } from './gql';
 import auth from './utils/auth.utils';
 
 config();
@@ -44,7 +43,7 @@ const registerApolloEndpoint = async (app, httpServer, params, path, isAuthentic
     path,
     expressMiddleware(endpoint, {
       context: async ({ req, res }) => ({
-        user: isAuthenticated ? await auth(req, res) : null,
+        user: await auth(req, isAuthenticated),
         req,
         res,
       }),
@@ -78,8 +77,8 @@ registerApolloEndpoint(
   app,
   httpServer,
   {
-    typeDefs: protectedRoutes.typeDefs,
-    resolvers: protectedRoutes.resolvers,
+    typeDefs: userRoutes.typeDefs,
+    resolvers: userRoutes.resolvers,
   },
   '/user',
   true
