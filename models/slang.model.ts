@@ -12,6 +12,7 @@ const slangSchema = new Schema(
       enum: ['pending', 'approved'],
     },
     likedByIds: [String],
+    bookmarkedByIds: [String],
     additionalInfo: [String],
   },
   {
@@ -31,6 +32,13 @@ slangSchema.virtual('submittedBy', {
 slangSchema.virtual('likedBy', {
   ref: 'User',
   localField: 'likedByIds',
+  foreignField: 'uid',
+  justOne: false,
+});
+
+slangSchema.virtual('bookmarkedBy', {
+  ref: 'User',
+  localField: 'bookmarkedByIds',
   foreignField: 'uid',
   justOne: false,
 });
