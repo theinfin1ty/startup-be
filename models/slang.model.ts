@@ -12,6 +12,10 @@ const slangSchema = new Schema(
       enum: ['pending', 'approved'],
     },
     likedByIds: [String],
+    likes: {
+      type: Number,
+      default: 0,
+    },
     bookmarkedByIds: [String],
     additionalInfo: [String],
   },

@@ -87,11 +87,13 @@ export const resolvers = {
 
         if(!slang?.likedByIds?.includes(user?.uid)) {
           slang.likedByIds = [ ...slang?.likedByIds, user?.uid ];
+          slang.likes += 1;
         } else {
           await Models.SlangModel.updateOne({ _id: slang._id }, {
             $pull: {
               likedByIds: user.uid,
-            }
+            },
+            likes: slang.likes - 1,
           })
         }
 
