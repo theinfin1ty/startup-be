@@ -33,7 +33,7 @@ export const resolvers = {
     getTrending: async (parent, args, context, info) => {
       try {
         const { id, page, size } = args;
-        const slangs = await Models.SlangModel.find({ _id: id }).sort({ likes: -1 });
+        const slangs = await Models.SlangModel.find({}).sort({ likes: -1 });
 
         return slangs;
       } catch (error) {
