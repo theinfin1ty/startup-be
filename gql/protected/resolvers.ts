@@ -103,5 +103,58 @@ export const resolvers = {
         throw new GraphQLError(error?.message);
       }
     },
+    bookmarkSlang: async (parent, args, context, info) => {
+      try {
+        const { user } = context;
+        const { id } = args;
+
+        const slang = await Models.SlangModel.findOne({ _id: id });
+
+        if (!slang) {
+          throw new GraphQLError('Slang not found');
+        }
+
+        if(!slang?.bookmarkedByIds?.includes(user?.uid)) {
+          slang.bookmarkedByIds = [ ...slang?.bookmarkedByIds, user?.uid ];
+        } else {
+          await Models.SlangModel.updateOne({ _id: slang._id }, {
+            $pull: {
+              bookmarkedByIds: user.uid,
+            }
+          })
+        }
+
+        await slang.save();
+
+        return slang;
+      } catch (error) {
+        console.log(error);
+        throw new GraphQLError(error?.message);
+      }
+    },
+    getUserSlangs: async (parent, args, context, info) => {
+      try {
+        const { user } = context;
+        
+        const slangs = await Models.SlangModel.find({ submittedById: user?.uid });
+
+        return slangs;
+      } catch (error) {
+        console.log(error);
+        throw new GraphQLError(error?.message);
+      }
+    },
+    getSavedSlangs: async (parent, args, context, info) => {
+      try {
+        const { user } = context;
+
+        const slangs = await Models.SlangModel.find({ bookmarkedByIds: user?.uid });
+
+        return slangs;
+      } catch (error) {
+        console.log(error);
+        throw new GraphQLError(error?.message);
+      }
+    }
   },
 };

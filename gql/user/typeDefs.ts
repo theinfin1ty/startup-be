@@ -9,10 +9,6 @@ export const typeDefs = `#graphql
   }
 
   type Query {
-    getUser: User
-  }
-
-  type Mutation {
     createUpdateUser: User
     deleteUser (id: String): User
   }

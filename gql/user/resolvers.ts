@@ -3,9 +3,6 @@ import Models from '../../models';
 
 export const resolvers = {
   Query: {
-    getUser: () => {}
-  },
-  Mutation: {
     createUpdateUser: async (parent, args, context, info) => {
       try {
         const { user: payload } = context;
