@@ -33,6 +33,9 @@ type Mutation {
 type Query {
   deleteSlang(id: String): Slang
   likeSlang(id: String): Slang
+  bookmarkSlang(id: String): Slang
+  getSavedSlangs: [Slang]
+  getUserSlangs: [Slang]
 }
 
 `;
