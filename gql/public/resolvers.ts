@@ -10,13 +10,14 @@ export const resolvers = {
           status: 'approved',
         }).sort({
           title: 1,
-        });
+        })
+        .lean();
 
         if (user) {
           for (let slang of slangs) {
-            slang._doc.bookmarked = slang?.bookmarkedByIds?.includes(user?.uid);
-            slang._doc.liked = slang?.likedByIds?.includes(user?.uid);
-            slang._doc.likes = slang?.likedByIds?.length ?? 0;
+            slang.bookmarked = slang?.bookmarkedByIds?.includes(user?.uid);
+            slang.liked = slang?.likedByIds?.includes(user?.uid);
+            slang.likes = slang?.likedByIds?.length ?? 0;
           }
         }
 
@@ -31,12 +32,12 @@ export const resolvers = {
       try {
         const { id } = args;
         const { user } = context;
-        const slang: any = await Models.SlangModel.findOne({ _id: id });
+        const slang: any = await Models.SlangModel.findOne({ _id: id }).lean();
 
         if (user) {
-          slang._doc.bookmarked = slang?.bookmarkedByIds?.includes(user?.uid);
-          slang._doc.liked = slang?.likedByIds?.includes(user?.uid);
-          slang._doc.likes = slang?.likedByIds?.length ?? 0;
+          slang.bookmarked = slang?.bookmarkedByIds?.includes(user?.uid);
+          slang.liked = slang?.likedByIds?.includes(user?.uid);
+          slang.likes = slang?.likedByIds?.length ?? 0;
         }
 
         return slang;
@@ -55,13 +56,14 @@ export const resolvers = {
           .find({
             status: 'approved'
           })
-          .sort({ likes: -1 });
+          .sort({ likes: -1 })
+          .lean();
 
         if (user) {
           for (let slang of slangs) {
-            slang._doc.bookmarked = slang?.bookmarkedByIds?.includes(user?.uid);
-            slang._doc.liked = slang?.likedByIds?.includes(user?.uid);
-            slang._doc.likes = slang?.likedByIds?.length ?? 0;
+            slang.bookmarked = slang?.bookmarkedByIds?.includes(user?.uid);
+            slang.liked = slang?.likedByIds?.includes(user?.uid);
+            slang.likes = slang?.likedByIds?.length ?? 0;
           }
         }
 
