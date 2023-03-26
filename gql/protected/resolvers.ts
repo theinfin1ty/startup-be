@@ -139,9 +139,9 @@ export const resolvers = {
         const slangs: any = await Models.SlangModel.find({ submittedById: user?.uid });
 
         for (let slang of slangs) {
-          slang._doc.bookmarked = slang.bookmarkedByIds.includes(user.uid);
-          slang._doc.liked = slang.likedByIds.includes(user.uid);
-          slang._doc.likes = slang.likedByIds.length;
+          slang._doc.bookmarked = slang?.bookmarkedByIds?.includes(user?.uid);
+          slang._doc.liked = slang?.likedByIds?.includes(user?.uid);
+          slang._doc.likes = slang?.likedByIds?.length;
         }
 
         return slangs;
@@ -157,9 +157,9 @@ export const resolvers = {
         const slangs: any = await Models.SlangModel.find({ bookmarkedByIds: user?.uid });
 
         for (let slang of slangs) {
-          slang._doc.bookmarked = slang.bookmarkedByIds.includes(user.uid);
-          slang._doc.liked = slang.likedByIds.includes(user.uid);
-          slang._doc.likes = slang.likedByIds.length;
+          slang._doc.bookmarked = slang?.bookmarkedByIds?.includes(user?.uid);
+          slang._doc.liked = slang?.likedByIds?.includes(user?.uid);
+          slang._doc.likes = slang?.likedByIds?.length;
         }
 
         return slangs;

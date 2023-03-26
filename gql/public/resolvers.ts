@@ -14,9 +14,9 @@ export const resolvers = {
 
         if (user) {
           for (let slang of slangs) {
-            slang._doc.bookmarked = slang.bookmarkedByIds.includes(user.uid);
-            slang._doc.liked = slang.likedByIds.includes(user.uid);
-            slang._doc.likes = slang.likedByIds.length;
+            slang._doc.bookmarked = slang?.bookmarkedByIds?.includes(user?.uid);
+            slang._doc.liked = slang?.likedByIds?.includes(user?.uid);
+            slang._doc.likes = slang?.likedByIds?.length;
           }
         }
 
@@ -34,9 +34,9 @@ export const resolvers = {
         const slang: any = await Models.SlangModel.findOne({ _id: id });
 
         if (user) {
-          slang._doc.bookmarked = slang.bookmarkedByIds.includes(user.uid);
-          slang._doc.liked = slang.likedByIds.includes(user.uid);
-          slang._doc.likes = slang.likedByIds.length;
+          slang._doc.bookmarked = slang?.bookmarkedByIds?.includes(user?.uid);
+          slang._doc.liked = slang?.likedByIds?.includes(user?.uid);
+          slang._doc.likes = slang?.likedByIds?.length;
         }
 
         return slang;
@@ -59,9 +59,9 @@ export const resolvers = {
 
         if (user) {
           for (let slang of slangs) {
-            slang._doc.bookmarked = slang.bookmarkedByIds.includes(user.uid);
-            slang._doc.liked = slang.likedByIds.includes(user.uid);
-            slang._doc.likes = slang.likedByIds.length;
+            slang._doc.bookmarked = slang?.bookmarkedByIds?.includes(user?.uid);
+            slang._doc.liked = slang?.likedByIds?.includes(user?.uid);
+            slang._doc.likes = slang?.likedByIds?.length;
           }
         }
 
