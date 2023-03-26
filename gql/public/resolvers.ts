@@ -5,11 +5,20 @@ export const resolvers = {
   Query: {
     getEverything: async (parent, args, context, info) => {
       try {
-        const slangs = await Models.SlangModel.find({
+        const { user } = context;
+        const slangs: any = await Models.SlangModel.find({
           status: 'approved',
         }).sort({
           title: 1,
         });
+
+        if (user) {
+          for (let slang of slangs) {
+            slang._doc.bookmarked = slang.bookmarkedByIds.includes(user.uid);
+            slang._doc.liked = slang.likedByIds.includes(user.uid);
+            slang._doc.likes = slang.likedByIds.length;
+          }
+        }
 
         return slangs;
       } catch (error) {
@@ -21,7 +30,14 @@ export const resolvers = {
     getSlang: async (parent, args, context, info) => {
       try {
         const { id } = args;
-        const slang = await Models.SlangModel.findOne({ _id: id });
+        const { user } = context;
+        const slang: any = await Models.SlangModel.findOne({ _id: id });
+
+        if (user) {
+          slang._doc.bookmarked = slang.bookmarkedByIds.includes(user.uid);
+          slang._doc.liked = slang.likedByIds.includes(user.uid);
+          slang._doc.likes = slang.likedByIds.length;
+        }
 
         return slang;
       } catch (error) {
@@ -33,11 +49,21 @@ export const resolvers = {
     getTrending: async (parent, args, context, info) => {
       try {
         const { id, page, size } = args;
-        const slangs = await Models.SlangModel
+        const { user } = context;
+
+        const slangs: any = await Models.SlangModel
           .find({
             status: 'approved'
           })
           .sort({ likes: -1 });
+
+        if (user) {
+          for (let slang of slangs) {
+            slang._doc.bookmarked = slang.bookmarkedByIds.includes(user.uid);
+            slang._doc.liked = slang.likedByIds.includes(user.uid);
+            slang._doc.likes = slang.likedByIds.length;
+          }
+        }
 
         return slangs;
       } catch (error) {

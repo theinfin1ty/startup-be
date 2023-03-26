@@ -8,6 +8,8 @@ export const typeDefs = `#graphql
     status: String
     usage: [String]
     additionalInfo: [String]
+    bookmarked: Boolean
+    liked: Boolean
   }
 
   type Query {

@@ -85,15 +85,13 @@ export const resolvers = {
           throw new GraphQLError('Slang not found');
         }
 
-        if(!slang?.likedByIds?.includes(user?.uid)) {
-          slang.likedByIds = [ ...slang?.likedByIds, user?.uid ];
-          slang.likes += 1;
+        if (!slang?.likedByIds?.includes(user?.uid)) {
+          slang.likedByIds = [...slang?.likedByIds, user?.uid];
         } else {
           await Models.SlangModel.updateOne({ _id: slang._id }, {
             $pull: {
               likedByIds: user.uid,
-            },
-            likes: slang.likes - 1,
+            }
           })
         }
 
@@ -116,8 +114,8 @@ export const resolvers = {
           throw new GraphQLError('Slang not found');
         }
 
-        if(!slang?.bookmarkedByIds?.includes(user?.uid)) {
-          slang.bookmarkedByIds = [ ...slang?.bookmarkedByIds, user?.uid ];
+        if (!slang?.bookmarkedByIds?.includes(user?.uid)) {
+          slang.bookmarkedByIds = [...slang?.bookmarkedByIds, user?.uid];
         } else {
           await Models.SlangModel.updateOne({ _id: slang._id }, {
             $pull: {
@@ -137,8 +135,14 @@ export const resolvers = {
     getUserSlangs: async (parent, args, context, info) => {
       try {
         const { user } = context;
-        
-        const slangs = await Models.SlangModel.find({ submittedById: user?.uid });
+
+        const slangs: any = await Models.SlangModel.find({ submittedById: user?.uid });
+
+        for (let slang of slangs) {
+          slang._doc.bookmarked = slang.bookmarkedByIds.includes(user.uid);
+          slang._doc.liked = slang.likedByIds.includes(user.uid);
+          slang._doc.likes = slang.likedByIds.length;
+        }
 
         return slangs;
       } catch (error) {
@@ -150,7 +154,13 @@ export const resolvers = {
       try {
         const { user } = context;
 
-        const slangs = await Models.SlangModel.find({ bookmarkedByIds: user?.uid });
+        const slangs: any = await Models.SlangModel.find({ bookmarkedByIds: user?.uid });
+
+        for (let slang of slangs) {
+          slang._doc.bookmarked = slang.bookmarkedByIds.includes(user.uid);
+          slang._doc.liked = slang.likedByIds.includes(user.uid);
+          slang._doc.likes = slang.likedByIds.length;
+        }
 
         return slangs;
       } catch (error) {
@@ -162,7 +172,7 @@ export const resolvers = {
       try {
         const { user } = context;
 
-        if(user?.role !== 'admin') {
+        if (user?.role !== 'admin') {
           throw new GraphQLError('Access Denied');
         }
 
