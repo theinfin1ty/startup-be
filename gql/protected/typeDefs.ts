@@ -8,6 +8,8 @@ type Slang {
   status: String
   usage: [String]
   additionalInfo: [String]
+  bookmarked: Boolean
+  liked: Boolean
 }
 
 input CreateSlangInput {
