@@ -136,12 +136,12 @@ export const resolvers = {
       try {
         const { user } = context;
 
-        const slangs: any = await Models.SlangModel.find({ submittedById: user?.uid });
+        const slangs: any = await Models.SlangModel.find({ submittedById: user?.uid }).lean();
 
         for (let slang of slangs) {
-          slang._doc.bookmarked = slang?.bookmarkedByIds?.includes(user?.uid);
-          slang._doc.liked = slang?.likedByIds?.includes(user?.uid);
-          slang._doc.likes = slang?.likedByIds?.length ?? 0;
+          slang.bookmarked = slang?.bookmarkedByIds?.includes(user?.uid);
+          slang.liked = slang?.likedByIds?.includes(user?.uid);
+          slang.likes = slang?.likedByIds?.length ?? 0;
         }
 
         return slangs;
@@ -154,12 +154,12 @@ export const resolvers = {
       try {
         const { user } = context;
 
-        const slangs: any = await Models.SlangModel.find({ bookmarkedByIds: user?.uid });
+        const slangs: any = await Models.SlangModel.find({ bookmarkedByIds: user?.uid }).lean();
 
         for (let slang of slangs) {
-          slang._doc.bookmarked = slang?.bookmarkedByIds?.includes(user?.uid);
-          slang._doc.liked = slang?.likedByIds?.includes(user?.uid);
-          slang._doc.likes = slang?.likedByIds?.length ?? 0;
+          slang.bookmarked = slang?.bookmarkedByIds?.includes(user?.uid);
+          slang.liked = slang?.likedByIds?.includes(user?.uid);
+          slang.likes = slang?.likedByIds?.length ?? 0;
         }
 
         return slangs;
