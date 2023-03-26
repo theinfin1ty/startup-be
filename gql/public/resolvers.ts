@@ -6,7 +6,7 @@ export const resolvers = {
     getEverything: async (parent, args, context, info) => {
       try {
         const slangs = await Models.SlangModel.find({
-          /* status: 'approved',*/
+          status: 'approved',
         }).sort({
           title: 1,
         });
@@ -33,7 +33,11 @@ export const resolvers = {
     getTrending: async (parent, args, context, info) => {
       try {
         const { id, page, size } = args;
-        const slangs = await Models.SlangModel.find({}).sort({ likes: -1 });
+        const slangs = await Models.SlangModel
+          .find({
+            status: 'approved'
+          })
+          .sort({ likes: -1 });
 
         return slangs;
       } catch (error) {

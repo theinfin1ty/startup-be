@@ -36,6 +36,7 @@ type Query {
   bookmarkSlang(id: String): Slang
   getSavedSlangs: [Slang]
   getUserSlangs: [Slang]
+  getSubmissions: [Slang]
 }
 
 `;

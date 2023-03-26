@@ -157,6 +157,26 @@ export const resolvers = {
         console.log(error);
         throw new GraphQLError(error?.message);
       }
+    },
+    getSubmissions: async (parent, args, context, info) => {
+      try {
+        const { user } = context;
+
+        if(user?.role !== 'admin') {
+          throw new GraphQLError('Access Denied');
+        }
+
+        const slangs = await Models.SlangModel.find({
+          status: 'pending',
+        }).sort({
+          title: 1,
+        });
+
+        return slangs;
+      } catch (error) {
+        console.log(error);
+        throw new GraphQLError(error?.message);
+      }
     }
   },
 };
