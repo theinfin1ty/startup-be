@@ -141,7 +141,7 @@ export const resolvers = {
         for (let slang of slangs) {
           slang._doc.bookmarked = slang?.bookmarkedByIds?.includes(user?.uid);
           slang._doc.liked = slang?.likedByIds?.includes(user?.uid);
-          slang._doc.likes = slang?.likedByIds?.length;
+          slang._doc.likes = slang?.likedByIds?.length ?? 0;
         }
 
         return slangs;
@@ -159,7 +159,7 @@ export const resolvers = {
         for (let slang of slangs) {
           slang._doc.bookmarked = slang?.bookmarkedByIds?.includes(user?.uid);
           slang._doc.liked = slang?.likedByIds?.includes(user?.uid);
-          slang._doc.likes = slang?.likedByIds?.length;
+          slang._doc.likes = slang?.likedByIds?.length ?? 0;
         }
 
         return slangs;
