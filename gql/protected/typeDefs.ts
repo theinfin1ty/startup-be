@@ -15,7 +15,8 @@ type Slang {
 input CreateSlangInput {
   title: String
   description: String
-  usage: [String]
+  usage: [String],
+  additionalInfo: [String]
 }
 
 input UpdateSlangInput {
