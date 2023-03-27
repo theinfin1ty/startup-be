@@ -52,11 +52,11 @@ export const resolvers = {
         const { id, page, size } = args;
         const { user } = context;
 
-        const slangs: any = await Models.SlangModel
+        let slangs: any = await Models.SlangModel
           .find({
             status: 'approved'
           })
-          .sort({ likes: -1 })
+          .sort({ likedByIds: -1 })
           .lean();
 
         if (user) {
@@ -66,6 +66,8 @@ export const resolvers = {
             slang.likes = slang?.likedByIds?.length ?? 0;
           }
         }
+
+        slangs = slangs.sort((a, b) => b?.likedByIds?.length - a?.likedByIds?.length);
 
         return slangs;
       } catch (error) {
