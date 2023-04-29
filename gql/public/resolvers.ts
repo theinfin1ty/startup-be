@@ -10,6 +10,7 @@ export const resolvers = {
           status: 'approved',
         }).sort({
           title: 1,
+          createdAt: -1
         })
         .lean();
 
@@ -56,7 +57,7 @@ export const resolvers = {
           .find({
             status: 'approved'
           })
-          .sort({ likedByIds: -1 })
+          .sort({ likedByIds: -1, createdAt: -1 })
           .lean();
 
         if (user) {
