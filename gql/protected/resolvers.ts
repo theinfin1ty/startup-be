@@ -140,7 +140,7 @@ export const resolvers = {
       try {
         const { user } = context;
 
-        const slangs: any = await Models.SlangModel.find({ submittedById: user?.uid }).lean();
+        const slangs: any = await Models.SlangModel.find({ submittedById: user?.uid }).sort({ createdAt: -1 }).lean();
 
         for (let slang of slangs) {
           slang.bookmarked = slang?.bookmarkedByIds?.includes(user?.uid);
@@ -158,7 +158,7 @@ export const resolvers = {
       try {
         const { user } = context;
 
-        const slangs: any = await Models.SlangModel.find({ bookmarkedByIds: user?.uid }).lean();
+        const slangs: any = await Models.SlangModel.find({ bookmarkedByIds: user?.uid }).sort({ createdAt: -1 }).lean();
 
         for (let slang of slangs) {
           slang.bookmarked = slang?.bookmarkedByIds?.includes(user?.uid);
@@ -184,6 +184,7 @@ export const resolvers = {
           status: 'pending',
         }).sort({
           title: 1,
+          createdAt: -1
         });
 
         return slangs;
