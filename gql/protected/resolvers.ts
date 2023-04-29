@@ -5,6 +5,7 @@ export const resolvers = {
   Mutation: {
     createSlang: async (parent, args, context, info) => {
       try {
+        const { user } = context;
         const { title, description, usage, additionalInfo } = args.data;
 
         const slang = await Models.SlangModel.create({
@@ -12,6 +13,7 @@ export const resolvers = {
           description: description,
           usage: usage,
           additionalInfo: additionalInfo,
+          submittedById: user?.uid,
         });
 
         return slang;
