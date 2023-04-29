@@ -25,19 +25,19 @@ export const resolvers = {
     updateSlang: async (parent, args, context, info) => {
       try {
         const { user } = context;
-        const { id } = args.data;
+        const { _id } = args.data;
 
         if (user.role !== 'admin') {
           throw new GraphQLError('Access Denied');
         }
 
-        const slang = await Models.SlangModel.findOne({ _id: id });
+        const slang = await Models.SlangModel.findOne({ _id });
 
         if (!slang) {
           throw new GraphQLError('Slang not found');
         }
 
-        const updates = Object.keys(args);
+        const updates = Object.keys(args.data);
 
         for (let update of updates) {
           slang[update] = args[update];
