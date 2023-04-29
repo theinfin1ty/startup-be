@@ -42,7 +42,7 @@ export const resolvers = {
         const updates = Object.keys(args.data);
 
         for (let update of updates) {
-          slang[update] = args[update];
+          slang[update] = args.data[update];
         }
 
         await slang.save();
