@@ -37,6 +37,8 @@ export const resolvers = {
           throw new GraphQLError('Slang not found');
         }
 
+        delete args?.data?._id;
+
         const updates = Object.keys(args.data);
 
         for (let update of updates) {
