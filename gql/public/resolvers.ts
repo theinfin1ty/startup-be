@@ -8,18 +8,19 @@ export const resolvers = {
         const { user } = context;
         const slangs: any = await Models.SlangModel.find({
           status: 'approved',
-        }).sort({
-          title: 1,
-          createdAt: -1
         })
-        .lean();
+          .sort({
+            title: 1,
+            createdAt: -1,
+          })
+          .lean();
 
-        if (user) {
-          for (let slang of slangs) {
+        for (let slang of slangs) {
+          if (user) {
             slang.bookmarked = slang?.bookmarkedByIds?.includes(user?.uid);
             slang.liked = slang?.likedByIds?.includes(user?.uid);
-            slang.likes = slang?.likedByIds?.length ?? 0;
           }
+          slang.likes = slang?.likedByIds?.length ?? 0;
         }
 
         return slangs;
@@ -38,8 +39,9 @@ export const resolvers = {
         if (user) {
           slang.bookmarked = slang?.bookmarkedByIds?.includes(user?.uid);
           slang.liked = slang?.likedByIds?.includes(user?.uid);
-          slang.likes = slang?.likedByIds?.length ?? 0;
         }
+
+        slang.likes = slang?.likedByIds?.length ?? 0;
 
         return slang;
       } catch (error) {
@@ -53,19 +55,18 @@ export const resolvers = {
         const { id, page, size } = args;
         const { user } = context;
 
-        let slangs: any = await Models.SlangModel
-          .find({
-            status: 'approved'
-          })
+        let slangs: any = await Models.SlangModel.find({
+          status: 'approved',
+        })
           .sort({ likedByIds: -1, createdAt: -1 })
           .lean();
 
-        if (user) {
-          for (let slang of slangs) {
+        for (let slang of slangs) {
+          if (user) {
             slang.bookmarked = slang?.bookmarkedByIds?.includes(user?.uid);
             slang.liked = slang?.likedByIds?.includes(user?.uid);
-            slang.likes = slang?.likedByIds?.length ?? 0;
           }
+          slang.likes = slang?.likedByIds?.length ?? 0;
         }
 
         slangs = slangs.sort((a, b) => b?.likedByIds?.length - a?.likedByIds?.length);
